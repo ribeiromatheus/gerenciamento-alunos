@@ -1,8 +1,8 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.ArtigosAcademicos"%>
+<%@page import="model.Artigo"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="artigosDAO" class="dao.DaoArtigosAcademicos" />
+<jsp:useBean id="artigosDAO" class="dao.DaoArtigo" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,10 +17,9 @@
             <form class="form" method="post" action="update.jsp">
                 <div class="form-group">
                     <%
-                        int id = Integer.parseInt(request.getParameter("id"));
+                    int id = Integer.parseInt(request.getParameter("id"));
 
-                        for (ArtigosAcademicos artigos: artigosDAO.selectId(id)) {
-
+                                            for (Artigo artigos: artigosDAO.selectId(id)) {
                     %>
                     <label for="nome">Título:</label>
                     <input type="hidden" name="id" value="<%=id%>">
@@ -38,26 +37,28 @@
                     <label>Páginas:</label>
 					<input type="text" name="paginas" value="<%=artigos.getNumeroPaginas()%>" placeholder="Data Publicação" class="form-control">
                 </div>
-                <%  }%>
+                <%
+                }
+                %>
                 <button onclick="redirect()" class="btn btn-warning">Alterar</button>
             </form>
         </div>
 		<%
 		String titulo = request.getParameter("titulo");
-		String data = request.getParameter("data");
-		String revista = request.getParameter("revista");
-		String paginas = request.getParameter("paginas");
+				String data = request.getParameter("data");
+				String revista = request.getParameter("revista");
+				String paginas = request.getParameter("paginas");
 
-		ArtigosAcademicos artigos = new ArtigosAcademicos();
-		
-		artigos.setTitulo(titulo);
-		artigos.setDataPublicacao(data);
-		artigos.setRevista(revista);
-		artigos.setNumeroPaginas(paginas);		
-		artigos.setTitulo(titulo);	
-		artigos.setIdArtigo(id);
-		
-		artigosDAO.update(artigos);
+				Artigo artigos = new Artigo();
+				
+				artigos.setTitulo(titulo);
+				artigos.setDataPublicacao(data);
+				artigos.setRevista(revista);
+				artigos.setNumeroPaginas(paginas);		
+				artigos.setTitulo(titulo);	
+				artigos.setIdArtigo(id);
+				
+				artigosDAO.update(artigos);
 		%>
 		
 		<script>

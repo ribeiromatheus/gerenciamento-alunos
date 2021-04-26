@@ -8,32 +8,32 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import model.AlunoArtigo;
 import model.AlunoDisciplina;
 import model.Disciplina;
 
-public class DaoAlunoDisciplina {
+public class DaoAlunoArtigo {
 
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public DaoAlunoDisciplina() {
+	public DaoAlunoArtigo() {
 		emf = Persistence.createEntityManagerFactory("banco-hibernate");
 		em = emf.createEntityManager();
 	}
 
-	public void insert(AlunoDisciplina disciplina) {
+	public void insert(AlunoArtigo artigo) {
 		em.getTransaction().begin();
-		em.persist(disciplina);
+		em.persist(artigo);
 		em.getTransaction().commit();
 		em.close();
 		emf.close();
 	}
 
-	public void update(AlunoDisciplina disciplina) {
+	public void update(AlunoArtigo artigo) {
 		em.getTransaction().begin();
-		AlunoDisciplina a = em.find(AlunoDisciplina.class, disciplina.getId());
-		a.setNota1(disciplina.getNota1());
-		a.setNota2(disciplina.getNota2());
+		AlunoArtigo a = em.find(AlunoArtigo.class, artigo.getId());
+		
 		em.persist(a);
 		em.getTransaction().commit();
 		em.close();
@@ -43,17 +43,17 @@ public class DaoAlunoDisciplina {
 
 	public void delete(int id) {
 		em.getTransaction().begin();
-		AlunoDisciplina a = em.find(AlunoDisciplina.class, id);
+		AlunoArtigo a = em.find(AlunoArtigo.class, id);
 		em.remove(a);
 		em.getTransaction().commit();
 		em.close();
 		emf.close();
 	}
 
-	public List<AlunoDisciplina> select() {
-		String sql = "FROM AlunoDisciplina";
+	public List<AlunoArtigo> select() {
+		String sql = "FROM AlunoArtigo";
 		Query query = em.createQuery(sql);
-		ArrayList<AlunoDisciplina> listaDisciplina = (ArrayList<AlunoDisciplina>) query.getResultList();
-		return listaDisciplina;
+		ArrayList<AlunoArtigo> listaArtigo = (ArrayList<AlunoArtigo>) query.getResultList();
+		return listaArtigo;
 	}
 }

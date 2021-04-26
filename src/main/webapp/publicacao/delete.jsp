@@ -1,4 +1,4 @@
-<%@page import="dao.DaoArtigosAcademicos"%>
+<%@page import="dao.DaoArtigo"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -12,9 +12,8 @@
 <%
 int id = Integer.parseInt(request.getParameter("id"));
 
-DaoArtigosAcademicos dao = new DaoArtigosAcademicos();
+DaoArtigo dao = new DaoArtigo();
 dao.delete(id);
-
 %>
 
 <script> 

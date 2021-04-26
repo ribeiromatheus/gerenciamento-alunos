@@ -8,19 +8,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import model.ArtigosAcademicos;
+import model.Artigo;
 
-public class DaoArtigosAcademicos {
+public class DaoArtigo {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public DaoArtigosAcademicos() {
+	public DaoArtigo() {
 		emf = Persistence.createEntityManagerFactory("banco-hibernate");
 		em = emf.createEntityManager();
 	}
 
 	// Insere um registro no banco de dados.
-	public void insert(ArtigosAcademicos artigos) {
+	public void insert(Artigo artigos) {
 		em.getTransaction().begin();
 		em.persist(artigos);
 		em.getTransaction().commit();
@@ -28,9 +28,9 @@ public class DaoArtigosAcademicos {
 		emf.close();
 	}
 
-	public void update(ArtigosAcademicos artigos) {
+	public void update(Artigo artigos) {
 		em.getTransaction().begin();
-		ArtigosAcademicos a = em.find(ArtigosAcademicos.class, artigos.getIdArtigo());
+		Artigo a = em.find(Artigo.class, artigos.getIdArtigo());
 		a.setTitulo(artigos.getTitulo());
 		a.setDataPublicacao(artigos.getDataPublicacao());
 		a.setRevista(artigos.getRevista());
@@ -43,31 +43,31 @@ public class DaoArtigosAcademicos {
 
 	public void delete(int id) {
 		em.getTransaction().begin();
-		ArtigosAcademicos a = em.find(ArtigosAcademicos.class, id);
+		Artigo a = em.find(Artigo.class, id);
 		em.remove(a);
 		em.getTransaction().commit();
 		em.close();
 		emf.close();
 	}
 
-	public List<ArtigosAcademicos> select() {
-		String sql = "FROM ArtigosAcademicos";
+	public List<Artigo> select() {
+		String sql = "FROM Artigo";
 		Query query = em.createQuery(sql);
-		ArrayList<ArtigosAcademicos> listaArtigos = (ArrayList<ArtigosAcademicos>) query.getResultList();
+		ArrayList<Artigo> listaArtigos = (ArrayList<Artigo>) query.getResultList();
 		return listaArtigos;
 	}
 
-	public List<ArtigosAcademicos> selectNome(String nome) {
-		String sql = "FROM artigosacademicos WHERE titulo LIKE :nomePesquisa";
+	public List<Artigo> selectNome(String nome) {
+		String sql = "FROM Artigo WHERE titulo LIKE :nomePesquisa";
 		Query query = em.createQuery(sql);
 		query.setParameter("nomePesquisa", "%" + nome + "%");
-		ArrayList<ArtigosAcademicos> listaArtigos = (ArrayList<ArtigosAcademicos>) query.getResultList();
+		ArrayList<Artigo> listaArtigos = (ArrayList<Artigo>) query.getResultList();
 		return listaArtigos;
 	}
 
-	public List<ArtigosAcademicos> selectId(int id) {
-		ArtigosAcademicos a = em.find(ArtigosAcademicos.class, id);
-		ArrayList<ArtigosAcademicos> listaArtigos = new ArrayList<ArtigosAcademicos>();
+	public List<Artigo> selectId(int id) {
+		Artigo a = em.find(Artigo.class, id);
+		ArrayList<Artigo> listaArtigos = new ArrayList<Artigo>();
 		listaArtigos.add(a);
 		return listaArtigos;
 

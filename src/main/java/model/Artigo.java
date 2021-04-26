@@ -11,24 +11,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "artigos_academicos")
-public class ArtigosAcademicos implements Serializable {
+public class Artigo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_artigo")
 	private int idArtigo;
-
 	private String titulo;
 	private String dataPublicacao;
 	private String numeroPaginas;
 	private String revista;
+	@OneToMany(mappedBy = "artigo", cascade = CascadeType.MERGE)
+	private Set<AlunoArtigo> alunos = new HashSet<AlunoArtigo>();
 
-	public ArtigosAcademicos() {
+	public Artigo() {
 
 	}
 
@@ -72,11 +71,19 @@ public class ArtigosAcademicos implements Serializable {
 		this.revista = revista;
 	}
 
+	public Set<AlunoArtigo> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(Set<AlunoArtigo> alunos) {
+		this.alunos = alunos;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((alunos == null) ? 0 : alunos.hashCode());
 		result = prime * result + ((dataPublicacao == null) ? 0 : dataPublicacao.hashCode());
 		result = prime * result + idArtigo;
 		result = prime * result + ((numeroPaginas == null) ? 0 : numeroPaginas.hashCode());
@@ -93,7 +100,12 @@ public class ArtigosAcademicos implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ArtigosAcademicos other = (ArtigosAcademicos) obj;
+		Artigo other = (Artigo) obj;
+		if (alunos == null) {
+			if (other.alunos != null)
+				return false;
+		} else if (!alunos.equals(other.alunos))
+			return false;
 		if (dataPublicacao == null) {
 			if (other.dataPublicacao != null)
 				return false;

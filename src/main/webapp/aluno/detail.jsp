@@ -1,9 +1,11 @@
-<%@page import="model.ArtigosAcademicos"%>
+<%@page import="model.AlunoArtigo"%>
+<%@page import="model.Artigo"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <jsp:useBean id="alunoDAO" class="dao.DaoAluno" />
 <jsp:useBean id="telefoneDAO" class="dao.DaoTelefone" />
 <jsp:useBean id="AlunoDisciplinaDAO" class="dao.DaoAlunoDisciplina" />
+<jsp:useBean id="AlunoArtigoDAO" class="dao.DaoAlunoArtigo" />
 <%@page import="model.Aluno"%>
 <%@page import="model.AlunoDisciplina"%>
 <%@page import="model.Telefone"%>
@@ -20,9 +22,10 @@
 	    	<div class="form-group">
 		    	<div class="bg-primary text-white text-center">Informações pessoais:</div>
 		    	<%
-		    		int id = Integer.parseInt(request.getParameter("id"));
-		    		
-					for (Aluno alunoInfo: alunoDAO.selectId(id)) {
+		    		try {
+			    		int id = Integer.parseInt(request.getParameter("id"));
+			    		
+						for (Aluno alunoInfo: alunoDAO.selectId(id)) {
                 %>
 		    	<label><strong>Nome: </strong><%=alunoInfo.getNome() %></label>&nbsp;&nbsp;
 		    	<label><strong>E-mail: </strong><%=alunoInfo.getEmail() %></label>
@@ -68,6 +71,40 @@
 			</div>
 			<hr>
 			<div class="form-group">
+				<div class="bg-warning text-white text-center">Artigos publicados:</div>
+				<table class="table table-striped">
+	                <thead>
+	                    <tr>
+	                        <th>ID</th>
+	                        <th>Título</th>
+	                        <th>Data Publicação</th>
+	                        <th>Revista</th>
+	                        <th>Páginas</th>
+	                        <th>Operações</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <%
+	                    	for (AlunoArtigo artigos: AlunoArtigoDAO.select()) {
+	                    		if (artigos.getAluno().getIdaluno() == id) {
+	                    %>
+	                    <tr>
+	                        <td><%=artigos.getArtigo().getIdArtigo()%></td>
+	                        <td><%=artigos.getArtigo().getTitulo()%></td>
+	                        <td><%=artigos.getArtigo().getDataPublicacao()%></td>
+	                        <td><%=artigos.getArtigo().getRevista()%></td>
+	                        <td><%=artigos.getArtigo().getNumeroPaginas()%></td>
+	                        <td>
+	                            <a href="../publicacao/delete.jsp?id=<%=artigos.getArtigo().getIdArtigo()%>" class="btn btn-danger">Excluir</a>
+	                        </td>
+	                    </tr>
+	                    <%}}%>
+	                </tbody>
+	            </table>
+            	<a href="../publicacao/associarArtigos.jsp" class="btn btn-warning">Incluir artigos</a>
+            </div>
+            <hr>
+			<div class="form-group">
 				<div class="bg-info text-white text-center">Relação de disciplinas:</div>
 		    	<table class="table table-striped">
 		    		<thead>
@@ -97,7 +134,7 @@
 	                            <a href="../disciplina/deleteAlunoDisciplina.jsp?id=<%=alunoDisciplina.getId()%>" class="btn btn-danger">Excluir</a>
 	                        </td>
 						</tr>
-						 <%}} %>
+						 <%}}} catch (Exception e){} %>
 		    		</tbody>
 		    	</table>
 		    	<a href="../disciplina/associarDisciplinas.jsp" class="btn btn-info">Incluir disciplina</a>

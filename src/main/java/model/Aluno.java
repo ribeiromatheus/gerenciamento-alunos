@@ -44,6 +44,9 @@ public class Aluno implements Serializable {
 	private Set<AlunoDisciplina> disciplinas = new HashSet<AlunoDisciplina>();
 
 	@OneToMany(mappedBy = "aluno", cascade = CascadeType.MERGE)
+	private Set<AlunoArtigo> artigos = new HashSet<AlunoArtigo>();
+
+	@OneToMany(mappedBy = "aluno", cascade = CascadeType.MERGE)
 	private Set<Telefone> telefones = new HashSet<Telefone>();
 
 	public Aluno() {
@@ -113,10 +116,19 @@ public class Aluno implements Serializable {
 		this.telefones = telefones;
 	}
 
+	public Set<AlunoArtigo> getArtigos() {
+		return artigos;
+	}
+
+	public void setArtigos(Set<AlunoArtigo> artigos) {
+		this.artigos = artigos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((artigos == null) ? 0 : artigos.hashCode());
 		result = prime * result + ((disciplinas == null) ? 0 : disciplinas.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
@@ -137,6 +149,11 @@ public class Aluno implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Aluno other = (Aluno) obj;
+		if (artigos == null) {
+			if (other.artigos != null)
+				return false;
+		} else if (!artigos.equals(other.artigos))
+			return false;
 		if (disciplinas == null) {
 			if (other.disciplinas != null)
 				return false;

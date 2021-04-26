@@ -1,8 +1,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.ArtigosAcademicos"%>
-<jsp:useBean id="artigosDAO" class="dao.DaoArtigosAcademicos" />
+<%@page import="model.Artigo"%>
+<jsp:useBean id="artigosDAO" class="dao.DaoArtigo" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,16 +13,16 @@
     </head>
     <body>
         <%
-            List<ArtigosAcademicos> listaArtigos = new ArrayList<ArtigosAcademicos>();
-            
-            String nome = "";
-            nome = request.getParameter("nome");
+        List<Artigo> listaArtigos = new ArrayList<Artigo>();
+                    
+                    String nome = "";
+                    nome = request.getParameter("nome");
 
-            if (nome != null) {
-            	listaArtigos = artigosDAO.selectNome(nome);
-            } else {
-            	listaArtigos = artigosDAO.select();
-            }
+                    if (nome != null) {
+                    	listaArtigos = artigosDAO.selectNome(nome);
+                    } else {
+                    	listaArtigos = artigosDAO.select();
+                    }
         %>
         <div class="container">
             <h1>Sistema de Gerenciamento de Turmas</h1>
@@ -65,7 +65,7 @@
                 </thead>
                 <tbody>
                     <%
-                        for (ArtigosAcademicos artigos: listaArtigos) {
+                    for (Artigo artigos: listaArtigos) {
                     %>
                     <tr>
                         <td><%=artigos.getIdArtigo()%></td>
